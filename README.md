@@ -9,3 +9,4 @@ reference: https://www.youtube.com/watch?v=xGmXxpIj6vs (walks you through it)
 * Dynamic scoring displayed on the canvas that is reset when you lose
 * Ability to pause game by pressing escape or p
 * Can move with w,a,s,d keys as well
+* Centered the game canvas and created a seperate js file for game logic 
