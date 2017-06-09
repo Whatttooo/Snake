@@ -1,10 +1,15 @@
 <canvas id="canvas" width="400" height="400"></canvas>
 <script>
+    pause = false;
     window.onload = function(){
         canv = document.getElementById("canvas");
         ctx  = canv.getContext("2d");
         document.addEventListener("keydown", keyPush);
-        setInterval(game, 1000/20);    
+        if(!pause){
+            setInterval(game, 1000/15);
+        }else{
+            console.log("bruh");
+        }    
     }
     scoreNum = 0;
     playerX=playerY=10;
@@ -46,16 +51,39 @@
             }
         }
 
-        trail.push({x:playerX, y:playerY});
-        while(trail.length>tail){
-                trail.shift();
+        if(!pause){
+            trail.push({x:playerX, y:playerY});
         }
+        while(trail.length > tail) {
+            if(!pause){
+                trail.shift();
+            }
+        }
+
+ /*       function tailTrail(){
+            setInterval(function(){
+                if(((trail.length > tail) && (velocityX != 0 || velocityY != 0)) && !start){
+                    trail.shift();
+                }
+            }, 1000/15);
+        }
+        tailTrail();
+*/
+
 
           if(appleX == playerX && appleY == playerY){
                 tail++;
                 scoreNum +=2;
                 appleX = Math.floor(Math.random()*tileCount);
                 appleY = Math.floor(Math.random()*tileCount);
+                for(var i=0; i<trail.length;i++){
+                    if(trail[i].x == appleX && trail[i].y == appleY){
+                        appleX = tileCount - appleX;
+                        appleY = tileCount - appleY;
+                        console.log("Clash avoided");
+                        break;
+                    }
+                }
             }        
 
         ctx.fillStyle = "red";
@@ -65,26 +93,47 @@
         switch(e.keyCode){
             case 65:
             case 37:
-                velocityX=-1;
-                velocityY=0;
+                pause = false;
+                if(velocityX == 1){
+                    break;
+                }else{
+                    velocityX=-1;
+                    velocityY=0;
+                }
                 break;
             case 87:
             case 38:
-                velocityX=0;
-                velocityY=-1;
+                pause = false;
+                 if(velocityY == 1){
+                    break;
+                }else{
+                    velocityX=0;
+                    velocityY=-1;
+                }
                 break;
             case 68:
             case 39:
-                velocityX=1;
-                velocityY=0;
+                pause = false;
+                 if(velocityX == -1){
+                    break;
+                }else{
+                    velocityX=1;
+                    velocityY=0;
+                }
                 break;
             case 83:
-            case 40: 
-                velocityX=0;
-                velocityY=1;
+            case 40:
+                pause = false; 
+                 if(velocityY ==-1){
+                    break;
+                }else{
+                    velocityX=0;
+                    velocityY=1;
+                }
                 break;
             case 80:
             case 27:
+                pause = true;
                 velocityX=0;
                 velocityY=0;
                 break;
